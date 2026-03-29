@@ -1,0 +1,185 @@
+:root {
+    --medical-blue-start: #00C6FF;
+    --medical-blue-end: #0072FF;
+    --medical-blue: #0072FF;
+    --medical-blue-hover: #005BB5;
+    
+    --bs-primary: #0072FF;
+    --bs-primary-rgb: 0, 114, 255;
+    
+    --bg-light: #f4f7fb;
+    --text-light: #444;
+}
+
+body[data-bs-theme="light"] { 
+    background-color: var(--bg-light); 
+    color: var(--text-light); 
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
+}
+
+.bg-medical-blue { 
+    background: linear-gradient(135deg, var(--medical-blue-start) 0%, var(--medical-blue-end) 100%) !important; 
+}
+.text-medical-blue {
+    color: var(--medical-blue) !important;
+}
+
+/* Global Bootstrap Primary Overrides */
+.text-primary { color: var(--medical-blue) !important; }
+.bg-primary { background-color: var(--medical-blue) !important; }
+.border-primary { border-color: var(--medical-blue) !important; }
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--medical-blue-start), var(--medical-blue-end)) !important;
+    border: none !important;
+    color: #fff !important;
+    box-shadow: 0 4px 6px rgba(0, 114, 255, 0.2) !important;
+    transition: all 0.3s ease !important;
+}
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 114, 255, 0.3) !important;
+}
+
+/* Ensure the toggle button looks crisp */
+#menu-toggle.bg-medical-blue {
+    box-shadow: 0 4px 10px rgba(0, 114, 255, 0.3);
+}
+
+/* Interactive Utilities */
+.hover-card {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease-in-out;
+}
+.hover-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.08) !important;
+}
+
+/* Modern Aesthetics */
+.card {
+    border-radius: 1rem;
+    border: 1px solid rgba(0,0,0,0.03) !important;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.03) !important;
+}
+
+/* Smooth Animations */
+@keyframes slideUpFade {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-slide-up {
+    animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #f8fafc; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* Wrapper & Sidebar Layout */
+#wrapper { overflow-x: hidden; position: relative; }
+
+#sidebar-wrapper {
+    min-height: 100vh;
+    margin-left: -16rem;
+    transition: margin 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    width: 16rem;
+    z-index: 1050;
+    position: relative;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+}
+
+#sidebar-wrapper .list-group-item {
+    font-size: 0.95rem;
+    padding: 1rem 1.25rem;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+#sidebar-wrapper .list-group-item:hover {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    padding-left: 1.5rem !important;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    margin-left: 0;
+}
+
+/* Page Content Transition */
+#page-content-wrapper {
+    width: 100%;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Sidebar Overlay for Mobile */
+#sidebar-overlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background-color: rgba(0,0,0,0.5); z-index: 1040;
+    opacity: 0; visibility: hidden; transition: opacity 0.3s ease;
+}
+#wrapper.toggled #sidebar-overlay {
+    opacity: 1; visibility: visible;
+}
+
+/* Dark mode was removed per user request */
+
+/* DataTables Resposive Adjustments */
+.dataTables_wrapper .row { align-items: center; margin-bottom: 0.5rem; }
+
+/* Map */
+#map {
+    height: 450px;
+    border-radius: 12px;
+    z-index: 1;
+}
+
+/* Responsive Utilities */
+@media (min-width: 992px) {
+    #sidebar-wrapper {
+        position: fixed;
+        margin-left: 0;
+    }
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: -16rem;
+    }
+    #page-content-wrapper {
+        margin-left: 16rem;
+        width: calc(100% - 16rem) !important;
+    }
+    #wrapper.toggled #page-content-wrapper {
+        margin-left: 0;
+        width: 100% !important;
+    }
+    #wrapper.toggled #sidebar-overlay { display: none !important; }
+    #menu-toggle { display: none !important; }
+}
+
+@media (max-width: 991.98px) {
+    #sidebar-wrapper {
+        position: fixed;
+        height: 100vh;
+        z-index: 1050;
+    }
+    #page-content-wrapper { padding: 0 !important; }
+    .container-fluid { padding: 1.5rem !important; }
+    #map { height: 350px; }
+    
+    .navbar .dropdown-menu {
+        position: absolute;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .container-fluid { padding: 1rem !important; }
+    h2 { font-size: 1.5rem; }
+    #map { height: 300px; }
+    .card-body { padding: 1rem; }
+    .table-responsive { border: 0; }
+    
+    /* Naive Bayes logika stacker logic text */
+    #logikaNB { padding: 1rem !important; font-size: 0.85rem; }
+    #logikaNB table { font-size: 0.8rem; }
+}
