@@ -46,9 +46,14 @@ include '../includes/header.php';
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="mb-0"><i class="fas fa-users me-2"></i>Data Pasien (Belum Diprediksi)</h2>
-    <button class="btn btn-primary bg-medical-blue border-0 shadow" data-bs-toggle="modal" data-bs-target="#tambahModal">
-        <i class="fas fa-plus me-2"></i>Pasien Baru
-    </button>
+    <div class="d-flex gap-2">
+        <button class="btn btn-outline-success border-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#importModal">
+            <i class="fas fa-file-excel me-2"></i>Import Excel
+        </button>
+        <button class="btn btn-primary bg-medical-blue border-0 shadow" data-bs-toggle="modal" data-bs-target="#tambahModal">
+            <i class="fas fa-plus me-2"></i>Pasien Baru
+        </button>
+    </div>
 </div>
 
 <?php if(isset($_GET['sukses'])): ?>
@@ -199,4 +204,121 @@ include '../includes/header.php';
     </div>
 </div>
 
+<!-- Modal Import Excel -->
+<div class="modal fade" id="importModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold"><i class="fas fa-file-excel me-2"></i>Import Data Pasien</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info py-2" style="font-size: 0.9rem;">
+                    <i class="fas fa-info-circle me-2"></i>Format file: <strong>.xlsx / .xls</strong>. <br>
+                    <a href="../assets/template_import_pasien.xlsx" download class="fw-bold text-decoration-none"><i class="fas fa-download me-1"></i>Unduh Template Excel</a>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Pilih Berkas Excel</label>
+                    <input type="file" id="excelFile" class="form-control" accept=".xlsx, .xls">
+                </div>
+                <div id="importProgress" class="d-none">
+                    <div class="text-center mb-2">Sedang memproses...</div>
+                    <div class="progress" style="height: 10px;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" id="btnProsesImport" class="btn btn-success"><i class="fas fa-upload me-2"></i>Mulai Import</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script>
+document.getElementById('btnProsesImport').addEventListener('click', function() {
+    const fileInput = document.getElementById('excelFile');
+    const file = fileInput.files[0];
+    
+    if (!file) {
+        alert('Harap pilih file excel terlebih dahulu!');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, {type: 'array', cellDates: true});
+        const firstSheet = workbook.SheetNames[0];
+        const rows = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet], {raw: false});
+
+        if (rows.length === 0) {
+            alert('File excel kosong!');
+            return;
+        }
+
+        // Tampilkan progress
+        document.getElementById('importProgress').classList.remove('d-none');
+        document.getElementById('btnProsesImport').disabled = true;
+
+        // Map column names if needed (e.g. if template uses different names than database)
+        const mappedData = rows.map(row => {
+            // Helper to format date YYYY-MM-DD
+            let tglLahir = row['Tanggal Lahir'] || row['tanggal_lahir'] || '';
+            if (tglLahir && !isNaN(Date.parse(tglLahir))) {
+                const d = new Date(tglLahir);
+                tglLahir = d.toISOString().split('T')[0];
+            }
+
+            return {
+                nik: row['NIK'] || row['nik'] || '',
+                nama: row['Nama'] || row['nama'] || '',
+                jenis_kelamin: (row['Jenis Kelamin'] || row['jenis_kelamin'] || '').toLowerCase().startsWith('l') ? 'laki-laki' : 'perempuan',
+                tanggal_lahir: tglLahir,
+                alamat: row['Alamat'] || row['alamat'] || '',
+                no_hp: row['No HP'] || row['no_hp'] || '',
+                tekanan_sistolik: parseInt(row['Sistolik'] || row['tekanan_sistolik'] || 0),
+                tekanan_diastolik: parseInt(row['Diastolik'] || row['tekanan_diastolik'] || 0),
+                imt: parseFloat(row['IMT'] || row['imt'] || 0),
+                merokok: row['Merokok'] || row['merokok'] || 'Tidak',
+                konsumsi_alkohol: row['Alkohol'] || row['konsumsi_alkohol'] || 'Tidak',
+                kurang_buah_sayur: row['Sayur/Buah'] || row['kurang_buah_sayur'] || 'Tidak',
+                diabetes: row['Diabetes'] || row['diabetes'] || 'Tidak',
+                riwayat_hipertensi: row['Keluarga Hipertensi'] || row['riwayat_hipertensi'] || 'Tidak'
+            };
+        });
+
+        fetch('../api/import_pasien.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(mappedData)
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.success) {
+                alert(result.message);
+                location.reload();
+            } else {
+                alert('Error: ' + result.message);
+                console.error(result.errors);
+            }
+        })
+        .catch(err => {
+            alert('Gagal mengirim data ke server!');
+            console.error(err);
+        })
+        .finally(() => {
+            document.getElementById('importProgress').classList.add('d-none');
+            document.getElementById('btnProsesImport').disabled = false;
+        });
+    };
+    reader.readAsArrayBuffer(file);
+});
+</script>
+
 <?php include '../includes/footer.php'; ?>
+
