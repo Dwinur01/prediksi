@@ -1,65 +1,70 @@
 :root {
-    --medical-blue-start: #00C6FF;
-    --medical-blue-end: #0072FF;
     --medical-blue: #0072FF;
-    --medical-blue-hover: #005BB5;
+    --medical-blue-light: #419DFF;
+    --medical-blue-dark: #0056BF;
+    --medical-cyan: #00C6FF;
     
-    --bs-primary: #0072FF;
-    --bs-primary-rgb: 0, 114, 255;
+    --success-green: #10b981;
+    --danger-red: #ef4444;
+    --warning-yellow: #f59e0b;
     
-    --bg-light: #f4f7fb;
-    --text-light: #444;
+    --bg-light: #f8fafc;
+    --card-bg: rgba(255, 255, 255, 0.8);
+    --glass-border: rgba(255, 255, 255, 0.4);
+    
+    --shadow-premium: 0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 4px 10px -5px rgba(0, 0, 0, 0.03);
+    --shadow-hover: 0 20px 40px -10px rgba(0, 0, 0, 0.1), 0 10px 20px -10px rgba(0, 0, 0, 0.05);
 }
 
 body[data-bs-theme="light"] { 
     background-color: var(--bg-light); 
-    color: var(--text-light); 
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(0, 114, 255, 0.03) 0, transparent 50%), 
+        radial-gradient(at 50% 0%, rgba(0, 198, 255, 0.03) 0, transparent 50%);
+    color: #1e293b; 
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
+    overflow-x: hidden;
 }
 
 .bg-medical-blue { 
-    background: linear-gradient(135deg, var(--medical-blue-start) 0%, var(--medical-blue-end) 100%) !important; 
-}
-.text-medical-blue {
-    color: var(--medical-blue) !important;
+    background: linear-gradient(135deg, var(--medical-blue) 0%, var(--medical-cyan) 100%) !important; 
 }
 
-/* Global Bootstrap Primary Overrides */
-.text-primary { color: var(--medical-blue) !important; }
-.bg-primary { background-color: var(--medical-blue) !important; }
-.border-primary { border-color: var(--medical-blue) !important; }
+.glass-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border) !important;
+    box-shadow: var(--shadow-premium) !important;
+}
+
+.hover-card {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.hover-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: var(--shadow-hover) !important;
+}
+
+.card {
+    border-radius: 1.25rem;
+    border: none;
+    overflow: hidden;
+}
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--medical-blue-start), var(--medical-blue-end)) !important;
+    background: linear-gradient(135deg, var(--medical-blue), var(--medical-cyan)) !important;
     border: none !important;
-    color: #fff !important;
-    box-shadow: 0 4px 6px rgba(0, 114, 255, 0.2) !important;
+    border-radius: 12px;
+    padding: 10px 24px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    box-shadow: 0 8px 15px rgba(0, 114, 255, 0.2) !important;
     transition: all 0.3s ease !important;
 }
 .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 114, 255, 0.3) !important;
-}
-
-/* Ensure the toggle button looks crisp */
-#menu-toggle.bg-medical-blue {
-    box-shadow: 0 4px 10px rgba(0, 114, 255, 0.3);
-}
-
-/* Interactive Utilities */
-.hover-card {
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease-in-out;
-}
-.hover-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.08) !important;
-}
-
-/* Modern Aesthetics */
-.card {
-    border-radius: 1rem;
-    border: 1px solid rgba(0,0,0,0.03) !important;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.03) !important;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 20px rgba(0, 114, 255, 0.3) !important;
 }
 
 /* Smooth Animations */

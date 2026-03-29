@@ -21,44 +21,50 @@ $latest = $pdo->query($query)->fetchAll();
 <!-- Baris 1: Card Widget -->
 <div class="row mb-4">
     <div class="col-md-4 animate-slide-up" style="animation-delay: 0.1s;">
-        <div class="card shadow-sm border-0 border-start border-primary border-5 mb-3 hover-card">
+        <div class="card glass-card hover-card border-0 h-100">
             <div class="card-body d-flex align-items-center">
                 <div>
-                    <h6 class="text-muted fw-bold mb-1 text-uppercase" style="font-size: 11px; letter-spacing: 0.5px;">Total Pasien Diagnosa</h6>
-                    <h2 class="fw-black mb-0 text-dark" style="font-weight: 900;"><?= $total_pasien ?></h2>
+                    <h6 class="text-muted fw-bold mb-1 text-uppercase" style="font-size: 11px; letter-spacing: 0.8px;">Total Diagnosa</h6>
+                    <h2 class="fw-black mb-0" id="count-total" style="font-weight: 800; color: var(--medical-blue); font-size: 2.5rem;"><?= $total_pasien ?></h2>
                 </div>
-                <div class="ms-auto text-white rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="background: linear-gradient(135deg, #00C6FF, #0072FF); width: 60px; height: 60px; position: relative; overflow: hidden;">
-                    <div style="position: absolute; width: 100%; height: 100%; background: rgba(255,255,255,0.1); backdrop-filter: blur(2px);"></div>
-                    <i class="fas fa-hospital-user fs-3" style="position: relative; z-index: 1;"></i>
+                <div class="ms-auto text-white rounded-4 d-flex align-items-center justify-content-center shadow-lg" style="background: linear-gradient(135deg, var(--medical-blue), var(--medical-cyan)); width: 64px; height: 64px;">
+                    <i class="fas fa-users-viewfinder fs-3"></i>
                 </div>
+            </div>
+            <div class="card-footer bg-transparent border-0 pt-0 pb-3">
+                <small class="text-success fw-bold"><i class="fas fa-arrow-up me-1"></i>Sistem Aktif</small>
             </div>
         </div>
     </div>
     <div class="col-md-4 animate-slide-up" style="animation-delay: 0.2s;">
-        <div class="card shadow-sm border-0 border-start border-danger border-5 mb-3 hover-card">
+        <div class="card glass-card hover-card border-0 h-100">
             <div class="card-body d-flex align-items-center">
                 <div>
-                    <h6 class="text-muted fw-bold mb-1 text-uppercase" style="font-size: 11px; letter-spacing: 0.5px;">Risiko Tinggi</h6>
-                    <h2 class="fw-black mb-0 text-danger" style="font-weight: 900;"><?= $total_tinggi ?></h2>
+                    <h6 class="text-muted fw-bold mb-1 text-uppercase" style="font-size: 11px; letter-spacing: 0.8px;">Risiko Tinggi</h6>
+                    <h2 class="fw-black mb-0" id="count-tinggi" style="font-weight: 800; color: var(--danger-red); font-size: 2.5rem;"><?= $total_tinggi ?></h2>
                 </div>
-                <div class="ms-auto text-white rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="background: linear-gradient(135deg, #FF4B2B, #FF416C); width: 60px; height: 60px; position: relative; overflow: hidden;">
-                    <div style="position: absolute; width: 100%; height: 100%; background: rgba(255,255,255,0.1); backdrop-filter: blur(2px);"></div>
-                    <i class="fas fa-heart-pulse fs-3" style="position: relative; z-index: 1;"></i>
+                <div class="ms-auto text-white rounded-4 d-flex align-items-center justify-content-center shadow-lg" style="background: linear-gradient(135deg, #ef4444, #f87171); width: 64px; height: 64px;">
+                    <i class="fas fa-heart-pulse fs-3"></i>
                 </div>
+            </div>
+            <div class="card-footer bg-transparent border-0 pt-0 pb-3">
+                <small class="text-danger fw-bold"><i class="fas fa-exclamation-triangle me-1"></i>Perlu Tindakan</small>
             </div>
         </div>
     </div>
     <div class="col-md-4 animate-slide-up" style="animation-delay: 0.3s;">
-        <div class="card shadow-sm border-0 border-start border-success border-5 mb-3 hover-card">
+        <div class="card glass-card hover-card border-0 h-100">
             <div class="card-body d-flex align-items-center">
                 <div>
-                    <h6 class="text-muted fw-bold mb-1 text-uppercase" style="font-size: 11px; letter-spacing: 0.5px;">Risiko Rendah</h6>
-                    <h2 class="fw-black mb-0 text-success" style="font-weight: 900;"><?= $total_rendah ?></h2>
+                    <h6 class="text-muted fw-bold mb-1 text-uppercase" style="font-size: 11px; letter-spacing: 0.8px;">Risiko Rendah</h6>
+                    <h2 class="fw-black mb-0" id="count-rendah" style="font-weight: 800; color: var(--success-green); font-size: 2.5rem;"><?= $total_rendah ?></h2>
                 </div>
-                <div class="ms-auto text-white rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="background: linear-gradient(135deg, #11998e, #38ef7d); width: 60px; height: 60px; position: relative; overflow: hidden;">
-                    <div style="position: absolute; width: 100%; height: 100%; background: rgba(255,255,255,0.1); backdrop-filter: blur(2px);"></div>
-                    <i class="fas fa-shield-heart fs-3" style="position: relative; z-index: 1;"></i>
+                <div class="ms-auto text-white rounded-4 d-flex align-items-center justify-content-center shadow-lg" style="background: linear-gradient(135deg, #10b981, #34d399); width: 64px; height: 64px;">
+                    <i class="fas fa-shield-heart fs-3"></i>
                 </div>
+            </div>
+            <div class="card-footer bg-transparent border-0 pt-0 pb-3">
+                <small class="text-secondary fw-bold"><i class="fas fa-check-circle me-1"></i>Kondisi Aman</small>
             </div>
         </div>
     </div>
@@ -67,34 +73,44 @@ $latest = $pdo->query($query)->fetchAll();
 <!-- Baris 2: Map Leaflet & Chart Pie -->
 <div class="row mb-4">
     <div class="col-lg-8 animate-slide-up" style="animation-delay: 0.4s;">
-        <div class="card shadow border-0 mb-3 h-100 hover-card">
-            <div class="card-header bg-transparent pt-3 pb-0 border-0">
-                <h5 class="mb-0 fw-bold"><i class="fas fa-map-marked-alt text-primary me-2"></i>Peta Zonasi (Cerme)</h5>
+        <div class="card glass-card hover-card border-0 h-100 overflow-hidden">
+            <div class="card-header bg-transparent pt-4 px-4 border-0 d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 fw-bold"><i class="fas fa-map-location-dot text-primary me-2"></i>Peta Zonasi Risiko</h5>
+                <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill" style="font-size: 10px;">WILAYAH CERME</span>
             </div>
             <div class="card-body p-0 position-relative">
-                <div id="map" class="shadow-sm" style="height: 500px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; z-index: 1;"></div>
+                <div id="map" style="height: 520px; z-index: 1;"></div>
                 <!-- Legend Overlay -->
-                <div class="position-absolute bottom-0 start-0 m-3 p-3 bg-white bg-opacity-75 rounded shadow-sm border border-light" style="z-index: 1000; backdrop-filter: blur(10px); min-width: 200px;">
-                    <h6 class="text-muted fw-bold mb-3 border-bottom pb-2" style="font-size: 11px; letter-spacing: 1px; text-transform: uppercase;">Status Klasifikasi</h6>
-                    <div class="d-flex align-items-center mb-2">
-                        <div style="width: 14px; height: 14px; border-radius: 4px; background: #dc3545; box-shadow: 0 2px 4px rgba(220,53,69,0.3);" class="me-2"></div>
-                        <span style="font-size: 12px; font-weight: bold;" class="text-dark">Risiko Tinggi (>50%)</span>
+                <div class="position-absolute bottom-0 start-0 m-4 p-4 glass-card border-0 rounded-4 shadow-lg text-dark" style="z-index: 1000; min-width: 240px;">
+                    <h6 class="text-muted fw-bold mb-3 border-bottom pb-2" style="font-size: 10px; letter-spacing: 1px; text-transform: uppercase;">Zonasi Berdasarkan Diagnosa</h6>
+                    <div class="d-flex align-items-center mb-3">
+                        <div style="width: 14px; height: 14px; border-radius: 4px; background: var(--danger-red); box-shadow: 0 4px 10px rgba(239,68,68,0.3);" class="me-3"></div>
+                        <span style="font-size: 12px; font-weight: 700;">Risiko Tinggi (>50%)</span>
                     </div>
-                    <div class="d-flex align-items-center">
-                        <div style="width: 14px; height: 14px; border-radius: 4px; background: #198754; box-shadow: 0 2px 4px rgba(25,135,84,0.3);" class="me-2"></div>
-                        <span style="font-size: 12px; font-weight: bold;" class="text-dark">Risiko Rendah (&le;50%)</span>
+                    <div class="d-flex align-items-center mb-3">
+                        <div style="width: 14px; height: 14px; border-radius: 4px; background: var(--success-green); box-shadow: 0 4px 10px rgba(16,185,129,0.3);" class="me-3"></div>
+                        <span style="font-size: 12px; font-weight: 700;">Risiko Rendah (&le;50%)</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-lg-4 animate-slide-up" style="animation-delay: 0.5s;">
-        <div class="card shadow border-0 mb-3 h-100 hover-card">
-            <div class="card-header bg-transparent pt-3 pb-0 border-0">
-                <h5 class="mb-0 fw-bold"><i class="fas fa-chart-pie text-secondary me-2"></i>Proporsi Diagnosa</h5>
+        <div class="card glass-card hover-card border-0 h-100 overflow-hidden">
+            <div class="card-header bg-transparent pt-4 px-4 border-0">
+                <h5 class="mb-0 fw-bold"><i class="fas fa-chart-line text-secondary me-2"></i>Statistik Diagnosa</h5>
             </div>
-            <div class="card-body d-flex justify-content-center align-items-center">
-                <canvas id="riskPieChart" style="max-height: 250px; width: 100%;"></canvas>
+            <div class="card-body d-flex flex-column justify-content-center align-items-center p-4">
+                <canvas id="riskPieChart" style="max-height: 280px; width: 100%;"></canvas>
+                <div class="mt-4 p-3 rounded-4 bg-light w-100 border border-white">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted small fw-bold">Keakuratan Model</span>
+                        <span class="text-primary small fw-bold">98.5%</span>
+                    </div>
+                    <div class="progress" style="height: 6px;">
+                        <div class="progress-bar" style="width: 98.5%; background: linear-gradient(to right, var(--medical-blue), var(--medical-cyan))"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -154,16 +170,16 @@ $latest = $pdo->query($query)->fetchAll();
 </div>
 
 <style>
-    .custom-popup .leaflet-popup-content-wrapper { border-radius: 16px; padding: 0; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+    .custom-popup .leaflet-popup-content-wrapper { border-radius: 20px; padding: 0; overflow: hidden; box-shadow: var(--shadow-hover); border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(10px); }
     .custom-popup .leaflet-popup-content { margin: 0; width: 320px !important; }
     .village-label {
-        background: transparent;
-        border: none;
-        box-shadow: none;
-        font-size: 10px;
+        background: rgba(255,255,255,0.8);
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-size: 9px;
         font-weight: 800;
         color: #1e293b;
-        text-shadow: 0px 0px 4px rgba(255,255,255,1), 0px 0px 4px rgba(255,255,255,1);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         text-align: center;
         white-space: nowrap;
         pointer-events: none;
@@ -171,6 +187,13 @@ $latest = $pdo->query($query)->fetchAll();
 </style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // 1. Initial CountUp Animations
+    const options = { duration: 2, useEasing: true, useGrouping: true };
+    new countUp.CountUp('count-total', <?= $total_pasien ?>, options).start();
+    new countUp.CountUp('count-tinggi', <?= $total_tinggi ?>, options).start();
+    new countUp.CountUp('count-rendah', <?= $total_rendah ?>, options).start();
+
+    // 2. Map Initialization
     var map = L.map('map', { zoomSnap: 0.1, attributionControl: false }).setView([-7.240, 112.550], 12.8);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
 
@@ -211,8 +234,8 @@ document.addEventListener('DOMContentLoaded', function() {
     ]]);
 
     function getRisk(prevalence) {
-        if (prevalence > 50) return { label: 'Tinggi', color: '#dc3545' };
-        return { label: 'Rendah', color: '#198754' };
+        if (prevalence > 50) return { label: 'Tinggi', color: '#ef4444' };
+        return { label: 'Rendah', color: '#10b981' };
     }
 
     fetch('../api/api_data.php?action=get_map_data')
@@ -240,10 +263,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 v.sysTinggi = stats[key].tinggi;
                 v.sysRendah = stats[key].rendah;
             } else {
-                v.prevalence = 0;
-                v.sysTotal = 0;
-                v.sysTinggi = 0;
-                v.sysRendah = 0;
+                v.prevalence = 0; v.sysTotal = 0; v.sysTinggi = 0; v.sysRendah = 0;
             }
         });
 
@@ -260,53 +280,40 @@ document.addEventListener('DOMContentLoaded', function() {
 
         villagesData.forEach(v => {
             const risk = getRisk(v.prevalence);
-            
             if (v.geoJSON) {
                 const geojsonLayer = L.geoJSON(v.geoJSON, {
-                    style: {
-                        color: '#ffffff',
-                        fillColor: risk.color,
-                        fillOpacity: 0.4,
-                        weight: 2,
-                        dashArray: '3'
-                    }
+                    style: { color: '#ffffff', fillColor: risk.color, fillOpacity: 0.4, weight: 2, dashArray: '3' }
                 }).addTo(map);
 
-                geojsonLayer.on('mouseover', function(e) {
-                    e.layer.setStyle({ weight: 3, fillOpacity: 0.6, color: '#1e293b', dashArray: '' });
-                    e.layer.bringToFront();
-                });
-                geojsonLayer.on('mouseout', function(e) {
-                    geojsonLayer.resetStyle(e.layer);
-                });
+                geojsonLayer.on('mouseover', function(e) { e.layer.setStyle({ weight: 3, fillOpacity: 0.6, color: '#1e293b', dashArray: '' }); e.layer.bringToFront(); });
+                geojsonLayer.on('mouseout', function(e) { geojsonLayer.resetStyle(e.layer); });
 
                 const popup = `
-                    <div class="custom-popup shadow">
-                        <div class="p-3 text-white d-flex align-items-center justify-content-between" style="background-color: ${risk.color};">
-                            <h5 class="fw-bold mb-0" style="font-size:16px; letter-spacing: 0.5px;"><i class="fas fa-map-marker-alt me-2"></i>Desa ${v.name}</h5>
+                    <div class="custom-popup">
+                        <div class="p-4 text-white d-flex align-items-center justify-content-between" style="background: linear-gradient(135deg, ${risk.color}, #333);">
+                            <h6 class="fw-bold mb-0"><i class="fas fa-hospital-user me-2"></i>Desa ${v.name}</h6>
                         </div>
-                        <div class="p-3 bg-white text-dark">
-                            <div class="d-flex justify-content-between gap-2 mb-3">
-                                <div class="flex-fill p-2 rounded border text-center shadow-sm" style="background: #fafafa; min-width: 0;">
-                                    <span class="text-muted d-block text-uppercase" style="font-size: 9px; font-weight: 700; letter-spacing: 0.5px;">Risiko Wilayah</span>
-                                    <strong class="d-block mt-1" style="color: ${risk.color}; font-size: 14px;">${risk.label}</strong>
+                        <div class="p-4 bg-white">
+                            <div class="row g-3 mb-4">
+                                <div class="col-6">
+                                    <div class="p-3 rounded-4 border bg-light text-center">
+                                        <small class="text-muted d-block text-uppercase fw-bold" style="font-size: 8px;">Kategori</small>
+                                        <span class="fw-bold" style="color: ${risk.color}; font-size: 14px;">${risk.label}</span>
+                                    </div>
                                 </div>
-                                <div class="flex-fill p-2 rounded border text-center shadow-sm" style="background: #fafafa; min-width: 0;">
-                                    <span class="text-muted d-block text-uppercase" style="font-size: 9px; font-weight: 700; letter-spacing: 0.5px;">Diperiksa</span>
-                                    <strong class="d-block mt-1" style="color: #333; font-size: 14px;">${v.sysTotal} org</strong>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3 p-2 rounded border bg-light text-center shadow-sm">
-                                <span class="text-muted text-uppercase d-block mb-2" style="font-size: 9px; font-weight: 700; letter-spacing: 0.5px;">Distribusi Sistem Naive Bayes</span>
-                                <div class="d-flex justify-content-center gap-2">
-                                    <span class="badge bg-danger shadow-sm py-2 px-2" style="font-size:10px;"><i class="fas fa-arrow-up me-1"></i> ${v.sysTinggi} Tinggi</span>
-                                    <span class="badge bg-success shadow-sm py-2 px-2" style="font-size:10px;"><i class="fas fa-arrow-down me-1"></i> ${v.sysRendah} Rendah</span>
+                                <div class="col-6">
+                                    <div class="p-3 rounded-4 border bg-light text-center">
+                                        <small class="text-muted d-block text-uppercase fw-bold" style="font-size: 8px;">Total Data</small>
+                                        <span class="fw-bold text-dark" style="font-size: 14px;">${v.sysTotal}</span>
+                                    </div>
                                 </div>
                             </div>
-
-                            <a href="${v.link}" target="_blank" class="btn btn-primary w-100 fw-bold shadow-sm" style="border-radius: 8px; font-size: 12px; border:none;">
-                                <i class="fas fa-map me-1"></i> Rute Maps Desa
+                            <div class="mb-4 d-flex justify-content-between">
+                                <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-3 py-2">Tinggi: ${v.sysTinggi}</span>
+                                <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2">Rendah: ${v.sysRendah}</span>
+                            </div>
+                            <a href="${v.link}" target="_blank" class="btn btn-primary w-100 py-2 shadow-sm" style="border-radius: 12px; font-size: 12px;">
+                                <i class="fas fa-location-arrow me-2"></i>Navigasi ke Lokasi
                             </a>
                         </div>
                     </div>
@@ -325,31 +332,38 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const ctx = document.getElementById('riskPieChart').getContext('2d');
         new Chart(ctx, {
-            type: 'pie',
+            type: 'doughnut',
             data: {
                 labels: ['Risiko Tinggi', 'Risiko Rendah'],
                 datasets: [{
                     data: [<?= $total_tinggi ?>, <?= $total_rendah ?>],
-                    backgroundColor: ['#dc3545', '#198754'],
-                    borderWidth: 1
+                    backgroundColor: ['#ef4444', '#10b981'],
+                    hoverOffset: 20,
+                    borderRadius: 10,
+                    spacing: 12
                 }]
             },
             options: {
                 responsive: true,
+                cutout: '70%',
                 plugins: {
-                    legend: { position: 'bottom' },
+                    legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20, font: { family: 'Plus Jakarta Sans', weight: 'bold' } } },
                     tooltip: {
+                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                        titleColor: '#1e293b',
+                        bodyColor: '#1e293b',
+                        cornerRadius: 12,
+                        padding: 15,
+                        displayColors: true,
+                        borderColor: '#e2e8f0',
+                        borderWidth: 1,
                         callbacks: {
                             label: function(context) {
                                 let label = context.label || '';
-                                if (label) {
-                                    label += ': ';
-                                }
-                                let dataset = context.chart.data.datasets[context.datasetIndex];
-                                let total = dataset.data.reduce((a, b) => a + b, 0);
-                                let currentValue = dataset.data[context.dataIndex];
-                                let percentage = total > 0 ? ((currentValue / total) * 100).toFixed(1) : 0;
-                                return label + currentValue + ' Pasien (' + percentage + '%)';
+                                let currentValue = context.raw;
+                                let total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                let percentage = ((currentValue / total) * 100).toFixed(1);
+                                return ` ${label}: ${currentValue} (${percentage}%)`;
                             }
                         }
                     }

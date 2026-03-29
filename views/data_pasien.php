@@ -63,7 +63,7 @@ include '../includes/header.php';
 </div>
 <?php endif; ?>
 
-<div class="card shadow-sm border-0">
+<div class="card glass-card hover-card border-0 shadow-sm">
     <div class="card-body">
         <div class="table-responsive">
             <table id="tablePasien" class="table table-striped table-hover align-middle">

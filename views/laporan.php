@@ -3,8 +3,8 @@ require_once '../config/koneksi.php';
 require_once '../includes/auth_check.php';
 
 $query = "SELECT hp.id_prediksi, hp.tanggal_prediksi, hp.hasil_prediksi,
-          p.nik, p.nama, TIMESTAMPDIFF(YEAR, p.tanggal_lahir, CURDATE()) as umur, p.jenis_kelamin, p.alamat,
-          ak.tekanan_sistolik, ak.tekanan_diastolik
+          p.id_pasien, p.nik, p.nama, TIMESTAMPDIFF(YEAR, p.tanggal_lahir, CURDATE()) as umur, p.tanggal_lahir, p.jenis_kelamin, p.alamat, p.no_hp,
+          ak.id_atribut, ak.tekanan_sistolik, ak.tekanan_diastolik, ak.imt, ak.merokok, ak.konsumsi_alkohol, ak.kurang_buah_sayur, ak.diabetes, ak.riwayat_hipertensi
           FROM hasil_prediksi hp
           JOIN pasien p ON hp.id_pasien = p.id_pasien
           JOIN atribut_kesehatan ak ON hp.id_atribut_kesehatan = ak.id_atribut
@@ -57,7 +57,8 @@ include '../includes/header.php';
                         <th width="10%">L/P (Umur)</th>
                         <th width="15%">Desa Wilayah</th>
                         <th width="15%">Tekanan (S/D)</th>
-                        <th width="20%">Kesimpulan Prediksi</th>
+                        <th width="15%">Prediksi</th>
+                        <th width="5%" class="no-print">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -72,6 +73,30 @@ include '../includes/header.php';
                         <td class="text-center"><?= $p['tekanan_sistolik'] ?>/<?= $p['tekanan_diastolik'] ?></td>
                         <td class="text-center <?= $p['hasil_prediksi'] == 'Tinggi' ? 'text-danger fw-bold' : 'text-success fw-bold' ?>">
                             RISIKO <?= strtoupper($p['hasil_prediksi']) ?>
+                        </td>
+                        <td class="text-center no-print">
+                            <button class="btn btn-sm btn-outline-primary btn-edit" 
+                                data-id_prediksi="<?= $p['id_prediksi'] ?>"
+                                data-id_pasien="<?= $p['id_pasien'] ?>"
+                                data-id_atribut="<?= $p['id_atribut'] ?>"
+                                data-nik="<?= $p['nik'] ?>"
+                                data-nama="<?= $p['nama'] ?>"
+                                data-tgl_lahir="<?= $p['tanggal_lahir'] ?>"
+                                data-gender="<?= $p['jenis_kelamin'] ?>"
+                                data-alamat="<?= $p['alamat'] ?>"
+                                data-hp="<?= $p['no_hp'] ?>"
+                                data-sistolik="<?= $p['tekanan_sistolik'] ?>"
+                                data-diastolik="<?= $p['tekanan_diastolik'] ?>"
+                                data-imt="<?= $p['imt'] ?>"
+                                data-merokok="<?= $p['merokok'] ?>"
+                                data-alkohol="<?= $p['konsumsi_alkohol'] ?>"
+                                data-sayur="<?= $p['kurang_buah_sayur'] ?>"
+                                data-diabetes="<?= $p['diabetes'] ?>"
+                                data-riwayat="<?= $p['riwayat_hipertensi'] ?>"
+                                data-hasil_prediksi="<?= $p['hasil_prediksi'] ?>"
+                                title="Edit Laporan / Data">
+                                <i class="fas fa-edit"></i>
+                            </button>
                         </td>
                     </tr>
                     <?php endforeach; ?>
@@ -91,8 +116,139 @@ include '../includes/header.php';
     </div>
 </div>
 
+<!-- Modal Edit Laporan -->
+<div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 20px; overflow: hidden;">
+            <div class="modal-header bg-medical-blue text-white p-4">
+                <h5 class="modal-title fw-bold"><i class="fas fa-edit me-2"></i>Edit Data & Laporan</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="formEditLaporan">
+                <div class="modal-body p-4 bg-light">
+                    <input type="hidden" id="edit_id_prediksi" name="id_prediksi">
+                    <input type="hidden" id="edit_id_pasien" name="id_pasien">
+                    <input type="hidden" id="edit_id_atribut" name="id_atribut">
+                    
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">NIK Pasien</label>
+                            <input type="text" id="edit_nik" name="nik" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted">Nama Lengkap</label>
+                            <input type="text" id="edit_nama" name="nama" class="form-control" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-muted">Tgl Lahir</label>
+                            <input type="date" id="edit_tgl_lahir" name="tanggal_lahir" class="form-control" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-muted">Jenis Kelamin</label>
+                            <select id="edit_gender" name="jenis_kelamin" class="form-select">
+                                <option value="laki-laki">Laki-laki</option>
+                                <option value="perempuan">Perempuan</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-muted">Desa / Alamat</label>
+                            <input type="text" id="edit_alamat" name="alamat" class="form-control">
+                        </div>
+                        
+                        <div class="col-12 border-top pt-4 mt-5"><h6 class="fw-bold text-primary"><i class="fas fa-stethoscope me-2"></i>Atribut Pemeriksaan</h6></div>
+                        
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-muted">Sistolik (mmHg)</label>
+                            <input type="number" id="edit_sistolik" name="tekanan_sistolik" class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-muted">Diastolik (mmHg)</label>
+                            <input type="number" id="edit_diastolik" name="tekanan_diastolik" class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-muted">IMT</label>
+                            <input type="number" step="0.01" id="edit_imt" name="imt" class="form-control">
+                        </div>
+                        
+                        <div class="col-md-12">
+                            <div class="p-3 bg-white rounded-4 border">
+                                <label class="form-label small fw-bold text-muted">Hasil Kesimpulan Prediksi (Override)</label>
+                                <select id="edit_hasil_prediksi" name="hasil_prediksi" class="form-select fw-bold border-2">
+                                    <option value="Rendah" class="text-success">RENDAH</option>
+                                    <option value="Tinggi" class="text-danger">TINGGI</option>
+                                </select>
+                                <small class="text-muted mt-2 d-block">Gunakan fitur ini hanya jika hasil klasifikasi otomatis Naive Bayes dirasa kurang tepat terhadap kondisi riil pasien.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-white border-0 p-4">
+                    <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary px-4 shadow-sm"><i class="fas fa-save me-2"></i>Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+
+    // Handle Edit Button Click
+    document.querySelectorAll('.btn-edit').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const d = this.dataset;
+            document.getElementById('edit_id_prediksi').value = d.id_prediksi;
+            document.getElementById('edit_id_pasien').value = d.id_pasien;
+            document.getElementById('edit_id_atribut').value = d.id_atribut;
+            document.getElementById('edit_nik').value = d.nik;
+            document.getElementById('edit_nama').value = d.nama;
+            document.getElementById('edit_tgl_lahir').value = d.tgl_lahir;
+            document.getElementById('edit_gender').value = d.gender;
+            document.getElementById('edit_alamat').value = d.alamat;
+            document.getElementById('edit_sistolik').value = d.sistolik;
+            document.getElementById('edit_diastolik').value = d.diastolik;
+            document.getElementById('edit_imt').value = d.imt;
+            document.getElementById('edit_hasil_prediksi').value = d.hasil_prediksi;
+            
+            editModal.show();
+        });
+    });
+
+    // Handle Form Submit
+    document.getElementById('formEditLaporan').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        
+        Swal.fire({
+            title: 'Simpan Perubahan?',
+            text: "Data laporan yang sudah dicetak akan diperbarui.",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#0072FF',
+            confirmButtonText: 'Ya, Simpan',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('../api/edit_laporan.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(res => {
+                    if (res.success) {
+                        Swal.fire('Berhasil!', res.message, 'success')
+                        .then(() => location.reload());
+                    } else {
+                        Swal.fire('Gagal!', res.message, 'error');
+                    }
+                });
+            }
+        });
+    });
+
+    // PDF Export Logic
     document.getElementById('btnPdf').addEventListener('click', function() {
         this.innerHTML = `<span class="spinner-border spinner-border-sm"></span> Generating...`;
         this.disabled = true;
